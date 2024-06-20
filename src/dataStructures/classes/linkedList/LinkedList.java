@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 public interface LinkedList<T> extends MyCollection<T> {
     Node<T> getHead();
     
-    void swap(Node<T> n1, Node<T> n2);
+    boolean swap(Node<T> n1, Node<T> n2);
     
     T removeFromFront();
     

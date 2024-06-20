@@ -65,8 +65,9 @@ public class SingleLL<T> implements LinkedList<T> {
     }
     
     @Override
-    public void swap(Node<T> n1, Node<T> n2) {
+    public boolean swap(Node<T> n1, Node<T> n2) {
         // TODO
+        return false;
     }
     
     @Override

@@ -17,13 +17,38 @@ public class TestLLStack {
         stack.push(3);
         stack.push(2);
         stack.push(1);
+        stack.forEach(item -> System.out.print(item));
+        System.out.println("");
         System.out.println(stack.pop());
         System.out.println(stack.pop());
         System.out.println(stack.top());
+        stack.forEach(item -> System.out.print(item));
+        System.out.println("");
         System.out.println(stack.pop());
         System.out.println(stack.pop());
         System.out.println(stack.pop());
-        System.out.println(stack.pop());
-        System.out.println(stack.top());
+        stack.forEach(item -> System.out.print(item));
+        System.out.println("");
+        System.out.println(stack.isEmpty());
+        
+        LLStack<Integer> stack1 = new LLStack<>();
+        stack1.push(5);
+        stack1.push(4);
+        stack1.push(3);
+        stack1.push(2);
+        stack1.push(1);
+        stack1.forEach(item -> System.out.print(item));
+        System.out.println("");
+        System.out.println(stack1.pop());
+        System.out.println(stack1.pop());
+        System.out.println(stack1.top());
+        stack1.forEach(item -> System.out.print(item));
+        System.out.println("");
+        System.out.println(stack1.pop());
+        System.out.println(stack1.pop());
+        System.out.println(stack1.pop());
+        stack1.forEach(item -> System.out.print(item));
+        System.out.println("");
+        System.out.println(stack1.isEmpty());
     }
 }

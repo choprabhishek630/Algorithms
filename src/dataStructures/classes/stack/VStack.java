@@ -3,17 +3,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package stack;
-import linkedList.Node;
-import linkedList.SingleLL;
+
+import vector.Vector;
 import java.util.EmptyStackException;
+import java.util.function.BiFunction;
+import vector.ReverseIterator;
+import java.util.Iterator;
 
 /**
  *
  * @author abhishekchopra
  */
-public class LLStack<T> extends SingleLL<T> implements Stack<T>  {
+public class VStack<T> extends Vector<T> implements Stack<T> {
     @Override
-    public boolean swap(Node<T> n1, Node<T> n2) {
+    public boolean swap(int idx1, int idx2) {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void sort(BiFunction<? super T, ?super T, Integer> comparator) {
         throw new UnsupportedOperationException();
     }
     
@@ -32,6 +40,11 @@ public class LLStack<T> extends SingleLL<T> implements Stack<T>  {
         if (super.isEmpty()) {
             throw new EmptyStackException();
         }
-        return super.getHead().item;
+        return super.at(0);
+    }
+    
+    @Override
+    public Iterator<T> iterator() {
+        return new ReverseIterator<>(this);
     }
 }

@@ -53,8 +53,9 @@ public class DoublyLL<T> extends SingleLL<T> {
     }
     
     @Override
-    public void swap(Node<T> d1, Node<T> d2) {
+    public boolean swap(Node<T> d1, Node<T> d2) {
         // TODO
+        return false;
     }
     
     @Override
