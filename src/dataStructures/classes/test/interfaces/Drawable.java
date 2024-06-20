@@ -4,6 +4,8 @@
  */
 package test.interfaces;
 
+import java.util.function.Function;
+
 /**
  *
  * @author abhishekchopra

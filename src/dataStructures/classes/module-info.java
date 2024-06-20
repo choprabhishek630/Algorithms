@@ -4,4 +4,5 @@
  */
 
 module dataStructures {
+    requires java.base;
 }
