@@ -4,7 +4,6 @@
  */
 package test.LinkedList;
 import linkedList.DoublyLL;
-import java.util.function.Consumer;
 import java.util.Objects;
 import linkedList.LinkedList;
 
