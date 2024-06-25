@@ -13,18 +13,21 @@ import java.util.Iterator;
  */
 public class SingleLL<T> implements LinkedList<T> {
     protected Node<T> head;
+    protected Node<T> tail;
     protected int N;
     
     public SingleLL() {
         this.head = null;
+        this.tail = null;
         this.N = 0;
     }
     
     @Override
-    public void add(T item) {
-        Node<T> newNode = new Node<>(item);
-        newNode.next = this.head;
-        this.head = newNode;
+    public void addInBack(T item) {
+        Node<T> oldTail = this.tail;
+        this.tail = new Node<>(item);
+        if (this.isEmpty()) this.head = this.tail;
+        else                oldTail.next = this.tail;
         this.N++;
     }
     
@@ -44,24 +47,39 @@ public class SingleLL<T> implements LinkedList<T> {
     }
     
     @Override
-    public T remove() {
+    public Node<T> getTail() {
+        return this.tail;
+    }
+    
+    @Override
+    public T removeFromFront() {
         if (this.isEmpty()) {
             throw new EmptyStackException();
         }
         T item = this.head.item;
         this.head = this.head.next;
         this.N--;
+        if (this.isEmpty()) this.tail = null;
         return item;
     }
     
     @Override
-    public T removeFromFront() {
-        return this.remove();
+    public T remove() {
+        return this.removeFromFront();
+    }
+    
+    @Override
+    public void add(T item) {
+        this.addInBack(item);
     }
     
     @Override
     public void addInFront(T item) {
-        this.add(item);
+        Node<T> oldHead = this.head;
+        this.head = new Node<>(item);
+        if (this.isEmpty()) this.tail = this.head;
+        else                            this.head.next = oldHead;
+        this.N++;
     }
     
     @Override

@@ -12,43 +12,29 @@ import java.util.function.Consumer;
  * @author abhishekchopra
  */
 public class DoublyLL<T> extends SingleLL<T> {
-    private DoubleNode<T> tail;
-    public DoublyLL() {
-        super();
-        this.tail = null;
-    }
     
     @Override
-    public DoubleNode<T> getTail() {
-        return this.tail;
-    }
-    
-    @Override
-    public void add(T item) {
-        DoubleNode<T> newNode = new DoubleNode<>(item);
-        newNode.next = this.head;
-        if (this.head != null) {
-            ((DoubleNode<T>) this.head).prev = newNode;
-        } else {
-            this.tail = newNode;
+    public void addInFront(T item) {
+        DoubleNode<T> oldHead = (DoubleNode<T>) this.head;
+        this.head = new DoubleNode<>(item);
+        if (this.isEmpty()) this.tail = this.head;
+        else {
+            this.head.next = oldHead;
+            oldHead.prev = (DoubleNode<T>) this.head;
         }
-        this.head = newNode;
         this.N++;
     }
     
     @Override
-    public T remove() {
+    public T removeFromFront() {
         if (this.isEmpty()) {
             throw new EmptyStackException();
         }
         T item = this.head.item;
         this.head = this.head.next;
-        if (this.head != null) {
-            ((DoubleNode<T>) this.head).prev = null;
-        } else {
-            this.tail = null;
-        }
         this.N--;
+        if (this.isEmpty()) this.tail = null;
+        else ((DoubleNode<T>) this.head).prev = null;
         return item;
     }
     
@@ -60,14 +46,13 @@ public class DoublyLL<T> extends SingleLL<T> {
     
     @Override
     public void addInBack(T item) {
-        DoubleNode<T> newNode = new DoubleNode<>(item);
-        newNode.prev = this.tail;
-        if (this.tail != null) {
-            ((DoubleNode<T>) this.tail).next = newNode;
-        } else {
-            this.head = newNode;
+        DoubleNode<T> oldTail = (DoubleNode<T>) this.tail;
+        this.tail = new DoubleNode<>(item);
+        if (this.isEmpty()) this.head = this.tail;
+        else {
+            ((DoubleNode<T>) this.tail).prev = oldTail;
+            oldTail.next = this.tail;
         }
-        this.tail = newNode;
         this.N++;
     }
     
@@ -77,19 +62,16 @@ public class DoublyLL<T> extends SingleLL<T> {
             throw new EmptyStackException();
         }
         T item = this.tail.item;
-        this.tail = this.tail.prev;
-        if (this.tail != null) {
-            ((DoubleNode<T>) this.tail).next = null;
-        } else {
-            this.head = null;
-        }
+        this.tail = ((DoubleNode<T>) this.tail).prev;
         this.N--;
+        if (this.isEmpty()) this.head = null;
+        else ((DoubleNode<T>) this.tail).next = null;
         return item;
     }
     
     @Override
     public void forEachReverse(Consumer<? super T> c) {
-        DoubleNode<T> current = this.tail;
+        DoubleNode<T> current = (DoubleNode<T>) this.tail;
         while (current != null) {
             c.accept(current.item);
             current = current.prev;

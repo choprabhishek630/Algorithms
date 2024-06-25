@@ -3,11 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/J2SEModule/module-info.java to edit this template
  */
 
-module dataStructures {
-    requires java.base;
-    exports collection;
-    exports linkedList;
-    exports queue;
-    exports stack;
-    exports vector;
+module problems {
+    requires dataStructures;
 }
