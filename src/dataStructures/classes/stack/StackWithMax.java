@@ -14,6 +14,7 @@ public class StackWithMax<T extends Comparable<T>> extends LLStack<T> {
         super();
         this.maxStack = new LLStack<>();
     }
+    
     @Override
     public void push(T item) {
         super.push(item);

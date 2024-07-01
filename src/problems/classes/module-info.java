@@ -4,5 +4,7 @@
  */
 
 module problems {
+    requires java.base;
     requires dataStructures;
+    requires algorithms;
 }

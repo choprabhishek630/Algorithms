@@ -4,4 +4,5 @@
  */
 
 module algorithms {
+    exports sort;
 }

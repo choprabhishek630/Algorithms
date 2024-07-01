@@ -7,6 +7,7 @@ import java.util.EmptyStackException;
 import stack.LLStack;
 import stack.Stack;
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  *

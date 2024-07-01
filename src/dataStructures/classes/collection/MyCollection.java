@@ -40,4 +40,11 @@ public interface MyCollection<T> extends Iterable<T> {
         }
         return false;
     }
+    
+    default T[] toArray() {
+        int N = this.size(), i = 0;
+        T[] result = (T[]) new Object[N];
+        for (T item : this) result[i++] = item;
+        return result;
+    }
 }
