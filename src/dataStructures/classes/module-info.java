@@ -11,4 +11,5 @@ module dataStructures {
     exports stack;
     exports vector;
     exports geometry;
+    exports priorityQueues;
 }
