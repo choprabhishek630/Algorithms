@@ -13,7 +13,7 @@ import sort.SortUtil;
 public class NutsAndBolts {
     private final static int[] testCases = {0, 1, 2, 3, 10, 20, 50, 100};
     
-    public static class Bolt {
+    public static class Bolt implements Comparable<Nut> {
         private final int size;
 
         public Bolt(int size) {
@@ -23,13 +23,14 @@ public class NutsAndBolts {
         public int getSize() {
             return this.size;
         }
-
-        public int compare(Nut n) {
+        
+        @Override
+        public int compareTo(Nut n) {
             return this.size - n.getSize();
         }
     }
     
-    public static class Nut {
+    public static class Nut implements Comparable<Bolt> {
         private final int size;
 
         public Nut(int size) {
@@ -39,8 +40,9 @@ public class NutsAndBolts {
         public int getSize() {
             return this.size;
         }
-
-        public int compare(Bolt b) {
+        
+        @Override
+        public int compareTo(Bolt b) {
             return this.size - b.getSize();
         }
     }
@@ -51,14 +53,14 @@ public class NutsAndBolts {
         Nut comparable = nuts[l];
         
         while (i <= rt) {
-            int cmp = bolts[i].compare(comparable);
+            int cmp = bolts[i].compareTo(comparable);
             
             if (cmp > 0)        SortUtil.swap(bolts, i, rt--);
             else if (cmp < 0)   SortUtil.swap(bolts, i++, lt++);
             else                i++;
         }
         
-        assert comparable.compare(bolts[lt]) == 0;
+        assert comparable.compareTo(bolts[lt]) == 0;
         assert lt == rt;
         
         
@@ -68,14 +70,14 @@ public class NutsAndBolts {
         i = l + 1;
         
         while (i <= rt) {
-            int cmp = nuts[i].compare(pivot);
+            int cmp = nuts[i].compareTo(pivot);
             
             if (cmp > 0)        SortUtil.swap(nuts, i, rt--);
             else if (cmp < 0)   SortUtil.swap(nuts, i++, lt++);
             else                i++;
         }
         
-        assert nuts[lt].compare(bolts[lt]) == 0;
+        assert nuts[lt].compareTo(bolts[lt]) == 0;
         assert lt == rt;
         
         return lt;
@@ -99,8 +101,8 @@ public class NutsAndBolts {
         assert nuts.length == bolts.length;
         
         for (int i = 0 ; i < N ; i++) {
-            if (nuts[i].compare(bolts[i]) != 0) return false;
-            if (i > 0 && nuts[i - 1].compare(bolts[i]) > 0) return false;
+            if (nuts[i].compareTo(bolts[i]) != 0) return false;
+            if (i > 0 && nuts[i - 1].compareTo(bolts[i]) > 0) return false;
         }
         
         return true;
