@@ -4,23 +4,40 @@
  */
 package sort;
 import java.util.Comparator;
-import priorityQueues.BinaryHeap;
-import priorityQueues.PriorityQueue;
+
+// for revision
+// https://www.coursera.org/learn/algorithms-part1/lecture/ZjoSM/heapsort
 
 /**
  *
  * @author abhishekchopra
  */
 public class HeapSort {
+    private static void sink(Object[] arr, int N, int k, Comparator cmp) {
+        while (2 * (k + 1) - 1 < N) {
+            int j = 2 * (k + 1) - 1;
+            
+            if (j < N - 1 && SortUtil.less(arr[j], arr[j + 1], cmp)) j++;
+            
+            if (!SortUtil.less(arr[k], arr[j], cmp))
+                break;
+            
+            SortUtil.swap(arr, k, j);
+            
+            k = j;
+        }
+    }
+    
     public static void sort(Object[] arr, Comparator cmp) {
         int N = arr.length;
-        PriorityQueue<Object> pq = new BinaryHeap<>(cmp.reversed());
-        for (Object item : arr) {
-            pq.add(item);
-        }
+        if (N <= 1) return;
         
-        for (int i = 0 ; i < N ; i++) {
-            arr[i] = pq.remove();
+        for (int i = N / 2 - 1 ; i >= 0 ; i--)
+            sink(arr, N, i, cmp);
+        
+        while (N >= 1) {
+            SortUtil.swap(arr, 0, --N);
+            sink(arr, N, 0, cmp);
         }
     }
     
