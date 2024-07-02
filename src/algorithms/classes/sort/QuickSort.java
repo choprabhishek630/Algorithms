@@ -5,6 +5,11 @@
 package sort;
 
 import java.util.Comparator;
+import geometry.Pair;
+
+
+// For Revision
+// https://www.coursera.org/learn/algorithms-part1/quiz/iH9u8/interview-questions-quicksort-ungraded/attempt
 
 /**
  *
@@ -30,6 +35,21 @@ public class QuickSort {
         }
         SortUtil.swap(arr, lo, r);
         return r;
+    }
+    
+    private static Pair<Integer, Integer> threeWayPartition(Object[] arr, Comparator cmp, int lo, int hi) {
+        int lt = lo, rt = hi, i = lo + 1;
+        Object comparable = arr[lo];
+        
+        while (i <= rt) {
+            int c = cmp.compare(arr[i], comparable);
+            
+            if (c < 0)      SortUtil.swap(arr, i++, lt++);
+            else if (c > 0) SortUtil.swap(arr, i, rt--);
+            else            i++;
+        }
+        
+        return new Pair(lt, rt);
     }
     
     private static void sort(Object[] arr, Comparator cmp, int lo, int hi) {
@@ -64,22 +84,27 @@ public class QuickSort {
         return arr[k];
     }
     
+    // Quick select method to get the kth element in the sorted array
+    // for revision https://www.coursera.org/learn/algorithms-part1/lecture/UQxFT/selection
+    public static Pair<Object, Pair<Integer, Integer>> threeWayselect(Object[] arr, int k, Comparator cmp) {
+        SortUtil.shuffle(arr);
+        int lo = 0, hi = arr.length - 1;
+        while (hi > lo) {
+            Pair<Integer, Integer> bounds = threeWayPartition(arr, cmp, lo, hi);
+            if (bounds.second < k) lo = bounds.second + 1;
+            else if (bounds.first > k) hi = bounds.first - 1;
+            else return new Pair(arr[k], bounds);
+        }
+        return new Pair(arr[k], new Pair(lo, hi));
+    }
+    
     // for revision https://www.coursera.org/learn/algorithms-part1/lecture/XvjPd/duplicate-keys
     private static void threeWaySort(Object[] arr, Comparator cmp, int lo, int hi) {
         if (lo >= hi) return;
-        int lt = lo, rt = hi, i = lo + 1;
-        Object pivot = arr[lo];
+        Pair<Integer, Integer> bounds = threeWayPartition(arr, cmp, lo, hi);
         
-        while (i <= rt) {
-            int res = cmp.compare(arr[i], pivot);
-            
-            if (res < 0)        SortUtil.swap(arr, lt++, i++);
-            else if (res > 0)   SortUtil.swap(arr, i, rt--);
-            else                i++;
-        }
-        
-        sort(arr, cmp, lo, lt - 1);
-        sort(arr, cmp, rt + 1, hi);
+        sort(arr, cmp, lo, bounds.first - 1);
+        sort(arr, cmp, bounds.second + 1, hi);
     }
     
     public static void threeWaySort(Object[] arr, Comparator cmp) {
@@ -90,6 +115,11 @@ public class QuickSort {
     public static Comparable select(Comparable[] arr, int k) {
         Comparator<Comparable> cmp = Comparator.naturalOrder();
         return (Comparable) (select(arr, k, cmp));
+    }
+    
+    public static Comparable threeWaySelect(Comparable[] arr, int k) {
+        Comparator<Comparable> cmp = Comparator.naturalOrder();
+        return (Comparable) (threeWayselect(arr, k, cmp));
     }
     
     public static void main(String[] args) {

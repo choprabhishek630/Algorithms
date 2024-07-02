@@ -4,5 +4,7 @@
  */
 
 module algorithms {
+    requires dataStructures;
+    
     exports sort;
 }
