@@ -15,5 +15,7 @@ public interface VectorInterface<T> extends MyCollection<T> {
     
     boolean swap(int idx1, int idx2);
     
+    void replace(T item, int idx);
+    
     void sort(BiFunction<? super T, ?super T, Integer> comparator);
 }

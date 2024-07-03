@@ -8,6 +8,9 @@ package symbolTables;
  *
  * @author abhishekchopra
  */
-public interface OrderedST<Key, Value> extends SymbolTable<Key, Value> {
+public interface OrderedST<Key extends Comparable<Key>, Value> extends SymbolTable<Key, Value> {
     int rank(Key key);
+    
+    @Override
+    Value get(Key key);
 }

@@ -97,4 +97,10 @@ public class Vector<T> implements VectorInterface<T> {
     public void sort(BiFunction<? super T, ?super T, Integer> comparator) {
         // TODO
     }
+    
+    @Override
+    public void replace(T item, int idx) {
+        this.checkOutOfBoundException(idx);
+        this.items[idx] = item;
+    }
 }

@@ -4,6 +4,7 @@
  */
 package symbolTables;
 
+import java.util.EmptyStackException;
 import util.Pair;
 
 
@@ -28,10 +29,20 @@ public interface SymbolTable<Key, Value> extends Iterable<Pair<Key, Value>> {
     }
     
     default Value get(Key key) {
+        if (this.isEmpty())
+            throw new EmptyStackException();
+        
+        if (key == null)
+            throw new NullPointerException("Key cannot be null (" + key + ")");
+        
         for (Pair<Key, Value> kVPair : this) {
             if (kVPair.first.equals(key))
                 return kVPair.second;
         }
         return null;
+    }
+    
+    default boolean isValidIndex(int idx) {
+        return idx >= 0 && idx < this.size();
     }
 }
