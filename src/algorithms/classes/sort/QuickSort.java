@@ -5,7 +5,8 @@
 package sort;
 
 import java.util.Comparator;
-import geometry.Pair;
+import util.Pair;
+import util.Arrays;
 
 
 // For Revision
@@ -23,17 +24,17 @@ public class QuickSort {
     private static int partition(Object[] arr, Comparator cmp, int lo, int hi) {
         int l = lo + 1, r = hi;
         while (true) {
-            while (l <= hi && SortUtil.less(arr[l], arr[lo], cmp))
+            while (l <= hi && Arrays.less(arr[l], arr[lo], cmp))
                 l++;
             
-            while (r > lo && SortUtil.less(arr[lo], arr[r], cmp))
+            while (r > lo && Arrays.less(arr[lo], arr[r], cmp))
                 r--;
             
             if (l >= r) break;
-            SortUtil.swap(arr, l++, r--);
+            Arrays.swap(arr, l++, r--);
             
         }
-        SortUtil.swap(arr, lo, r);
+        Arrays.swap(arr, lo, r);
         return r;
     }
     
@@ -44,8 +45,8 @@ public class QuickSort {
         while (i <= rt) {
             int c = cmp.compare(arr[i], comparable);
             
-            if (c < 0)      SortUtil.swap(arr, i++, lt++);
-            else if (c > 0) SortUtil.swap(arr, i, rt--);
+            if (c < 0)      Arrays.swap(arr, i++, lt++);
+            else if (c > 0) Arrays.swap(arr, i, rt--);
             else            i++;
         }
         
@@ -60,7 +61,7 @@ public class QuickSort {
     }
     
     public static void sort(Object[] arr, Comparator cmp) {
-        SortUtil.shuffle(arr);
+        Arrays.shuffle(arr);
         sort(arr, cmp, 0, arr.length - 1);
     }
     
@@ -73,7 +74,7 @@ public class QuickSort {
     // Quick select method to get the kth element in the sorted array
     // for revision https://www.coursera.org/learn/algorithms-part1/lecture/UQxFT/selection
     public static Object select(Object[] arr, int k, Comparator cmp) {
-        SortUtil.shuffle(arr);
+        Arrays.shuffle(arr);
         int lo = 0, hi = arr.length - 1;
         while (hi > lo) {
             int pivot = partition(arr, cmp, lo, hi);
@@ -87,7 +88,7 @@ public class QuickSort {
     // Quick select method to get the kth element in the sorted array
     // for revision https://www.coursera.org/learn/algorithms-part1/lecture/UQxFT/selection
     public static Pair<Object, Pair<Integer, Integer>> threeWayselect(Object[] arr, int k, Comparator cmp) {
-        SortUtil.shuffle(arr);
+        Arrays.shuffle(arr);
         int lo = 0, hi = arr.length - 1;
         while (hi > lo) {
             Pair<Integer, Integer> bounds = threeWayPartition(arr, cmp, lo, hi);
@@ -108,7 +109,7 @@ public class QuickSort {
     }
     
     public static void threeWaySort(Object[] arr, Comparator cmp) {
-        SortUtil.shuffle(arr);
+        Arrays.shuffle(arr);
         threeWaySort(arr, cmp, 0, arr.length - 1);
     }
     

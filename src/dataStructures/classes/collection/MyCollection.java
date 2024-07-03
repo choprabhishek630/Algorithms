@@ -22,7 +22,7 @@ public interface MyCollection<T> extends Iterable<T> {
     
     default boolean contains(T item) {
         for (T i : this) {
-            if (i == item) return true;
+            if (i.equals(item)) return true;
         }
         return false;
     }

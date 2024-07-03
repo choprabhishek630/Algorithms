@@ -10,6 +10,6 @@ module dataStructures {
     exports queue;
     exports stack;
     exports vector;
-    exports geometry;
     exports priorityQueues;
+    exports util;
 }

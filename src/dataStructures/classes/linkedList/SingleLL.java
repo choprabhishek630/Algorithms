@@ -42,13 +42,15 @@ public class SingleLL<T> implements LinkedList<T> {
     }
     
     @Override
-    public Node<T> getHead() {
-        return this.head;
+    public T getHead() {
+        if (this.head == null) return null;
+        return this.head.item;
     }
     
     @Override
-    public Node<T> getTail() {
-        return this.tail;
+    public T getTail() {
+        if (this.tail == null) return null;
+        return this.tail.item;
     }
     
     @Override
@@ -91,5 +93,43 @@ public class SingleLL<T> implements LinkedList<T> {
     @Override
     public Iterator<T> iterator() {
         return new SingleLLIterator(this.head);
+    }
+    
+    protected boolean isValidIndex(int idx) {
+        return idx >= 0 && idx < this.size();
+    }
+    
+    @Override
+    public T remove(int idx) {
+        if (this.isEmpty())
+            throw new EmptyStackException();
+        
+        if (!this.isValidIndex(idx))
+            throw new IndexOutOfBoundsException("Index " + idx + " is out of bounds!");
+        
+        if (idx == 0)
+            return this.removeFromFront();
+        
+        int i = 1;
+        Node<T> curr = head;
+        while (curr.next != null) {
+            if (i == idx) {
+                Node<T> next = curr.next;
+                curr.next = next.next;
+                next.next = null;
+                this.N--;
+                if (curr.next == null) this.tail = curr;
+                return next.item;
+            }
+            curr = curr.next;
+            i++;
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public T removeFromBack() {
+        return this.remove(this.size() - 1);
     }
 }

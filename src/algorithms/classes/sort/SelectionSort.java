@@ -4,6 +4,7 @@
  */
 package sort;
 import java.util.Comparator;
+import util.Arrays;
 
 // for revision
 // https://www.coursera.org/learn/algorithms-part1/lecture/VE0sv/selection-sort
@@ -19,8 +20,8 @@ public class SelectionSort {
         for (int i = 0 ; i < N - 1 ; i++) {
             int minIdx = i;
             for (int j = i + 1 ; j < N ; j++)
-                if (SortUtil.less(arr[j], arr[minIdx], cmp)) minIdx = j;
-            SortUtil.swap(arr, i, minIdx);
+                if (Arrays.less(arr[j], arr[minIdx], cmp)) minIdx = j;
+            Arrays.swap(arr, i, minIdx);
         }
     }
     

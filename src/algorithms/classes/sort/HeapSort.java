@@ -4,6 +4,7 @@
  */
 package sort;
 import java.util.Comparator;
+import util.Arrays;
 
 // for revision
 // https://www.coursera.org/learn/algorithms-part1/lecture/ZjoSM/heapsort
@@ -17,12 +18,12 @@ public class HeapSort {
         while (2 * (k + 1) - 1 < N) {
             int j = 2 * (k + 1) - 1;
             
-            if (j < N - 1 && SortUtil.less(arr[j], arr[j + 1], cmp)) j++;
+            if (j < N - 1 && Arrays.less(arr[j], arr[j + 1], cmp)) j++;
             
-            if (!SortUtil.less(arr[k], arr[j], cmp))
+            if (!Arrays.less(arr[k], arr[j], cmp))
                 break;
             
-            SortUtil.swap(arr, k, j);
+            Arrays.swap(arr, k, j);
             
             k = j;
         }
@@ -36,7 +37,7 @@ public class HeapSort {
             sink(arr, N, i, cmp);
         
         while (N >= 1) {
-            SortUtil.swap(arr, 0, --N);
+            Arrays.swap(arr, 0, --N);
             sink(arr, N, 0, cmp);
         }
     }

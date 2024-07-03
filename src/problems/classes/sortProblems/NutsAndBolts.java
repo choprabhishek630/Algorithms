@@ -4,7 +4,7 @@
  */
 package sortProblems;
 
-import sort.SortUtil;
+import util.Arrays;
 
 /**
  *
@@ -55,8 +55,8 @@ public class NutsAndBolts {
         while (i <= rt) {
             int cmp = bolts[i].compareTo(comparable);
             
-            if (cmp > 0)        SortUtil.swap(bolts, i, rt--);
-            else if (cmp < 0)   SortUtil.swap(bolts, i++, lt++);
+            if (cmp > 0)        Arrays.swap(bolts, i, rt--);
+            else if (cmp < 0)   Arrays.swap(bolts, i++, lt++);
             else                i++;
         }
         
@@ -72,8 +72,8 @@ public class NutsAndBolts {
         while (i <= rt) {
             int cmp = nuts[i].compareTo(pivot);
             
-            if (cmp > 0)        SortUtil.swap(nuts, i, rt--);
-            else if (cmp < 0)   SortUtil.swap(nuts, i++, lt++);
+            if (cmp > 0)        Arrays.swap(nuts, i, rt--);
+            else if (cmp < 0)   Arrays.swap(nuts, i++, lt++);
             else                i++;
         }
         
@@ -109,7 +109,7 @@ public class NutsAndBolts {
     }
     
     public static boolean testCase(int N) {
-        Integer[] arr = SortUtil.generateRandomArr(N);
+        Integer[] arr = Arrays.generateRandomArr(N);
         Nut[] nuts = new Nut[N];
         Bolt[] bolts = new Bolt[N];
         for (int i = 0 ; i < N ; i++) {
@@ -117,8 +117,8 @@ public class NutsAndBolts {
             bolts[i] = new Bolt(arr[i]);
         }
         
-        SortUtil.shuffle(nuts);
-        SortUtil.shuffle(bolts);
+        Arrays.shuffle(nuts);
+        Arrays.shuffle(bolts);
         
         sort(nuts, bolts);
         

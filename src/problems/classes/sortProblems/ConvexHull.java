@@ -6,8 +6,8 @@ package sortProblems;
 
 import stack.LLStack;
 import stack.Stack;
-import geometry.Point2D;
-import sort.SortUtil;
+import util.Point2D;
+import util.Arrays;
 import sort.ShellSort;
 
 // for revision
@@ -32,7 +32,7 @@ public class ConvexHull {
     public static Point2D[] findHull(Point2D[] points) {
         int N = points.length;
         Stack<Point2D> hull = new LLStack<>();
-        SortUtil.swap(points, 0, findLowestYPoint(points));
+        Arrays.swap(points, 0, findLowestYPoint(points));
         ShellSort.sort(points, points[0].BiPolarComparator());
         for (Point2D p : points) System.out.print("(" + p.getX() + ", " + p.getY() + "), ");
         System.out.println();
@@ -54,7 +54,7 @@ public class ConvexHull {
     
     public static void main(String[] args) {
         Point2D[] points = {new Point2D(0, 0), new Point2D(2, 1), new Point2D(3, 2), new Point2D(2, 2), new Point2D(1, 1.5), new Point2D(1, 3), new Point2D(-1, 1), new Point2D(-2, 1.5), new Point2D(-2, 2.5)};
-        SortUtil.shuffle(points);
+        Arrays.shuffle(points);
         
         Point2D[] hull = findHull(points);
         

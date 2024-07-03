@@ -42,7 +42,6 @@ public class TestDoubleLL {
         System.out.println("");
         System.out.println(ll.contains(3, (Integer i, Integer j) -> Objects.equals(i, j) ));
         System.out.println(ll.removeFromBack());
-        System.out.println(ll.getHead());
         System.out.println(ll.size());
         
         

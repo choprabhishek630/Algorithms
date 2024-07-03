@@ -34,6 +34,6 @@ public class LLQueue<T> extends SingleLL<T> implements Queue<T> {
         if (super.isEmpty()) {
             throw new EmptyStackException();
         }
-        return super.getHead().item;
+        return super.getHead();
     }
 }

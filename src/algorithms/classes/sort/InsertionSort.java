@@ -4,6 +4,7 @@
  */
 package sort;
 import java.util.Comparator;
+import util.Arrays;
 
 // for revision
 // https://www.coursera.org/learn/algorithms-part1/lecture/1hYlN/insertion-sort
@@ -17,8 +18,8 @@ public class InsertionSort {
     public static void sort(Object[] arr, Comparator cmp) {
         int N = arr.length;
         for (int i = 1 ; i < N ; i++)
-            for (int j = i - 1 ; j >= 0 && SortUtil.less(arr[j + 1], arr[j], cmp) ; j--)
-                SortUtil.swap(arr, j, j + 1);
+            for (int j = i - 1 ; j >= 0 && Arrays.less(arr[j + 1], arr[j], cmp) ; j--)
+                Arrays.swap(arr, j, j + 1);
     }
     
     public static void sort(Comparable[] arr) {

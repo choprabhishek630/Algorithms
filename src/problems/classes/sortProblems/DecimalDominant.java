@@ -4,7 +4,7 @@
  */
 package sortProblems;
 
-import geometry.Pair;
+import util.Pair;
 import sort.QuickSort;
 import java.util.Comparator;
 

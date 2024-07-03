@@ -78,4 +78,36 @@ public class DoublyLL<T> extends SingleLL<T> {
         }
     }
     
+    @Override
+    public T remove(int idx) {
+        if (this.isEmpty())
+            throw new EmptyStackException();
+        
+        if (!this.isValidIndex(idx))
+            throw new IndexOutOfBoundsException("Index " + idx + " is out of bounds!");
+        
+        if (idx == 0)
+            return this.removeFromFront();
+        
+        int i = 1;
+        DoubleNode<T> curr = (DoubleNode<T>) this.head;
+        
+        while (curr.next != null) {
+            if (i == idx) {
+                DoubleNode<T> next = (DoubleNode<T>) curr.next;
+                curr.next = next.next;
+                next.next = null;
+                next.prev = null;
+                this.N--;
+                if (curr.next != null)
+                    ((DoubleNode<T>) (next.next)).prev = curr;
+                else
+                    this.tail = curr;
+                return next.item;
+            }
+            curr = (DoubleNode<T>) curr.next;
+            i++;
+        }
+        return null;
+    }
 }

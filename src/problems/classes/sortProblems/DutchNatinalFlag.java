@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package sortProblems;
-import sort.SortUtil;
+import util.Arrays;
 import java.util.Random;
 
 // for revision
@@ -27,11 +27,11 @@ public class DutchNatinalFlag {
         while (i <= r) {
             switch (arr[i]) {
                 case RED -> {
-                    SortUtil.swap(arr, i++, l++);
+                    Arrays.swap(arr, i++, l++);
                     break;
                 }
                 case BLUE -> {
-                    SortUtil.swap(arr, i, r--);
+                    Arrays.swap(arr, i, r--);
                     break;
                 }
                 case WHITE -> {
@@ -73,7 +73,7 @@ public class DutchNatinalFlag {
             arr[N - 1] = convertToPebble(curr);
             N--;
         }
-        SortUtil.shuffle(arr);
+        Arrays.shuffle(arr);
         return arr;
     }
     

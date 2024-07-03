@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  * @author abhishekchopra
  */
 public interface LinkedList<T> extends MyCollection<T> {
-    Node<T> getHead();
+    T getHead();
     
     boolean swap(Node<T> n1, Node<T> n2);
     
@@ -19,19 +19,15 @@ public interface LinkedList<T> extends MyCollection<T> {
     
     void addInFront(T item);
     
-    default void addInBack(T item) {
-        throw new UnsupportedOperationException();
-    }
+    T getTail();
     
-    default Node<T> getTail() {
-        throw new UnsupportedOperationException();
-    }
+    T removeFromBack();
     
-    default T removeFromBack() {
-        throw new UnsupportedOperationException();
-    }
+    void addInBack(T item);
     
     default void forEachReverse(Consumer<? super T> c) {
         throw new UnsupportedOperationException();
     }
+    
+    T remove(int idx);
 }

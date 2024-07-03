@@ -32,6 +32,6 @@ public class LLStack<T> extends SingleLL<T> implements Stack<T>  {
         if (super.isEmpty()) {
             throw new EmptyStackException();
         }
-        return super.getHead().item;
+        return super.getHead();
     }
 }

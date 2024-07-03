@@ -4,6 +4,7 @@
  */
 package sort;
 import java.util.Comparator;
+import util.Arrays;
 
 // For revision
 // https://www.coursera.org/learn/algorithms-part1/lecture/zPYhF/shellsort
@@ -18,8 +19,8 @@ public class ShellSort {
         while (h < N / 3) h = 3 * h + 1;
         while (h > 0) {
             for (int i = h ; i < N ; i++)
-                for (int j = i - h ; j >= 0 && SortUtil.less(arr[j + h], arr[j], cmp) ; j -= h)
-                    SortUtil.swap(arr, j, j + h);
+                for (int j = i - h ; j >= 0 && Arrays.less(arr[j + h], arr[j], cmp) ; j -= h)
+                    Arrays.swap(arr, j, j + h);
             h = h / 3;
         }
     }

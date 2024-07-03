@@ -9,7 +9,7 @@ import priorityQueues.PriorityQueue;
 import java.util.Comparator;
 import collection.MyCollection;
 import java.util.Iterator;
-import sort.SortUtil;
+import util.Arrays;
 
 // for revision
 // https://www.coursera.org/learn/algorithms-part1/quiz/rOobS/interview-questions-priority-queues-ungraded/view-attempt
@@ -130,7 +130,7 @@ public class DynamicMedian<T> implements MyCollection<T> {
     }
     
     public static void main(String[] args) {
-        Integer[] arr = SortUtil.generateRandomArr(20);
+        Integer[] arr = Arrays.generateRandomArr(20);
         
         Comparator<Integer> cmp = Comparator.naturalOrder();
         
