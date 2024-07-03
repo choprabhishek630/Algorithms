@@ -9,7 +9,6 @@ import linkedList.SingleLL;
 import util.Pair;
 import java.util.EmptyStackException;
 import java.util.Iterator;
-import util.Arrays;
 
 /**
  *
@@ -78,55 +77,6 @@ public class STUsingLL<Key, Value> implements SymbolTable<Key, Value> {
     }
     
     public static void main(String[] args) {
-        int N = 20;
-        Integer[] keys = Arrays.generateRandomArr(N);
-        Integer[] values1 = Arrays.generateRandomArr(N);
-        Integer[] values2 = Arrays.generateRandomArr(N);
-        
-        SymbolTable<Integer, Integer> st = new STUsingLL<>();
-        
-        for (int i = 0 ; i < N ; i++) {
-            st.put(keys[i], values1[i]);
-        }
-        
-        for (int i = 1 ; i < N ; i += 2) {
-            st.put(keys[i], values2[i]);
-        }
-        
-        Arrays.print(keys);
-        Arrays.print(values1);
-        Arrays.print(values2);
-        
-        Arrays.print(st.iterator());
-        
-        System.out.println(st.contains(10));
-        
-        System.out.println(st.size());
-        System.out.println(st.isEmpty());
-        
-        System.out.println(st.get(10));
-        
-        System.out.println(st.delete(10));
-        
-        System.out.println(st.contains(10));
-        
-        System.out.println(st.size());
-        System.out.println(st.isEmpty());
-        
-        System.out.println(st.get(10));
-        
-        Arrays.print(st.iterator());
-        
-        for (int i = 1 ; i <= 20 ; i++) {
-            System.out.print(st.delete(i) + ", ");
-        }
-        System.out.println();
-        
-        System.out.println(st.size());
-        System.out.println(st.isEmpty());
-        
-        System.out.println(st.get(10));
-        
-        Arrays.print(st.iterator());
+        SymbolTable.test(new STUsingLL<>());
     }
 }

@@ -5,7 +5,10 @@
 package symbolTables;
 
 import java.util.EmptyStackException;
+import util.Arrays;
 import util.Pair;
+import java.util.ArrayList;
+import java.util.List;
 
 
 // for revision
@@ -44,5 +47,67 @@ public interface SymbolTable<Key, Value> extends Iterable<Pair<Key, Value>> {
     
     default boolean isValidIndex(int idx) {
         return idx >= 0 && idx < this.size();
+    }
+    
+    default Iterable<Key> keys() {
+        List<Key> list = new ArrayList<>(this.size());
+        for (Pair<Key, Value> kv : this)
+            list.add(kv.first);
+        return list;
+    }
+    
+    static void test(SymbolTable<Integer, Integer> st) {
+        int N = 20;
+        Integer[] keys = Arrays.generateRandomArr(N);
+        Integer[] values1 = Arrays.generateRandomArr(N);
+        Integer[] values2 = Arrays.generateRandomArr(N);
+        
+        for (int i = 0 ; i < N ; i++) {
+            st.put(keys[i], values1[i]);
+        }
+        
+        for (int i = 1 ; i < N ; i += 2) {
+            st.put(keys[i], values2[i]);
+        }
+        
+        assert st.size() == N : "Incorrect size" + st.size();
+        assert !st.isEmpty() : "Stack is not empty";
+        
+        for (int i = 0 ; i < N ; i++) {
+            if (i % 2 == 1)
+                assert st.get(keys[i]).equals(values2[i]);
+            else
+                assert st.get(keys[i]).equals(values1[i]);
+        }
+        
+        assert st.contains(10);
+        
+        assert st.size() == N;
+        assert !st.isEmpty();
+        
+        assert st.get(10) != null;
+        
+        assert st.delete(10) != null;
+        
+        assert !st.contains(10);
+        
+        assert st.size() == N - 1;
+        
+        assert !st.isEmpty();
+        
+        assert st.get(10) == null;
+        
+        for (int i = 1 ; i <= 20 ; i++) {
+            if (i != 10)
+                assert st.delete(i) != null;
+            else
+                assert st.delete(i) == null;
+        }
+        
+        assert st.size() == 0;
+        
+        assert st.isEmpty();
+        
+        System.out.println("Test cases passed for Generic symbol table");
     }
 }
