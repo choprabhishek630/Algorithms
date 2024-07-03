@@ -8,6 +8,7 @@ import vector.Vector;
 import java.util.Comparator;
 import java.util.EmptyStackException;
 import java.util.Iterator;
+import java.util.Random;
 
 // for revision
 // https://www.coursera.org/learn/algorithms-part1/lecture/Uzwy6/binary-heaps
@@ -19,6 +20,40 @@ import java.util.Iterator;
 public class BinaryHeap<T> implements PriorityQueue<T> {
     private final Vector<T> pq;
     private final Comparator<T> cmp;
+    
+    
+    // TODO
+//    private final class TreeIterator<T> implements Iterator<T> {
+//        private final Vector<T> pq;
+//        private int id;
+//        
+//        public TreeIterator(Vector<T> pq) {
+//            this.pq = pq;
+//            this.id = 1;
+//        }
+//        
+//        @Override
+//        public boolean hasNext() {
+//            return this.id < this.pq.size() && this.id > 0;
+//        }
+//        
+//        @Override
+//        public T next() {
+//            T item = this.pq.at(this.id);
+//                
+//            int copy = this.id;
+//            while (this.id > 0) {
+//                if (this.id * 2 < this.pq.size() && this.id * 2 != copy) {
+//                    this.id *= 2;
+//                    return item;
+//                } else if () {
+//                
+//                }
+//            }
+//            
+//            return item;
+//        }
+//    }
     
     public BinaryHeap(Comparator<T> cmp) {
         this.cmp = cmp;
@@ -70,19 +105,57 @@ public class BinaryHeap<T> implements PriorityQueue<T> {
         return this.pq.at(1);
     }
     
+    private boolean isValidIndex(int idx) {
+        return idx <= this.size() || idx > 0;
+    }
+    
     @Override
-    public T remove() {
+    public T remove(int idx) {
         if (this.isEmpty())
             throw new EmptyStackException();
-        this.pq.swap(1, this.size());
+        if (!isValidIndex(idx))
+            throw new IndexOutOfBoundsException("Index " + idx + " is out of bound!");
+        this.pq.swap(idx, this.size());
         T max = this.pq.remove();
-        this.sink(1);
+        this.sink(idx);
         return max;
     }
     
     @Override
-    public Iterator<T> iterator() {
-        return this.pq.iterator();
+    public int sample() {
+        if (this.isEmpty()) return 0;
+        Random rand = new Random();
+        return rand.nextInt(this.size()) + 1;
     }
     
+    @Override
+    public T remove() {
+        return this.remove(1);
+    }
+    
+    @Override
+    public T delRandom() {
+        return this.remove(this.sample());
+    }
+    
+    @Override
+    public Iterator<T> iterator() {
+        Iterator<T> itr = this.pq.iterator();
+        if (itr.hasNext()) itr.next();
+        return itr;
+    }
+    
+    // TODO
+//    public Iterator<T> treeIterator() {
+//        return new TreeIterator<>(this.pq);
+//    }
 }
+
+/*
+                    10
+          9                     8
+     7         6          1          2
+   4   5     3 
+
+
+*/

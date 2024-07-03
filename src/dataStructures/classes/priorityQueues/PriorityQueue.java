@@ -12,4 +12,7 @@ import collection.MyCollection;
  */
 public interface PriorityQueue<T> extends MyCollection<T> {
     T peek();
+    int sample();
+    T remove(int idx);
+    T delRandom();
 }
