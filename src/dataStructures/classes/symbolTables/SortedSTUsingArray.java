@@ -118,6 +118,7 @@ public class SortedSTUsingArray<Key extends Comparable<Key>, Value> implements O
         }
     }
     
+    @Override
     public Value delete(int rank) {
         if (this.isEmpty())
             throw new EmptyStackException();

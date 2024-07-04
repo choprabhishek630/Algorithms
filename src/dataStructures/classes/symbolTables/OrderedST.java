@@ -96,7 +96,8 @@ public interface OrderedST<Key extends Comparable<Key>, Value> extends SymbolTab
         
         int idx = 0;
         
-        list.add(this.select(ceilRank + idx++));
+        while (idx < size)
+            list.add(this.select(ceilRank + idx++));
         
         return list;
     }
@@ -148,6 +149,21 @@ public interface OrderedST<Key extends Comparable<Key>, Value> extends SymbolTab
         assert st.min() == 6 && st.max() == 18;
         
         assert st.size() == 7;
+        
+        Iterable<Integer> keys = st.keys(3, 8);
+        
+        int idx = 1;
+        for (Integer k : keys) {
+            assert k.equals(st.select(idx));
+            idx++;
+        }
+        
+        keys = st.keys();
+        idx = 1;
+        for (Integer k : keys) {
+            assert k.equals(st.select(idx));
+            idx++;
+        }   
         
         System.out.println("Test cases passed for Ordered symbol table");
     }

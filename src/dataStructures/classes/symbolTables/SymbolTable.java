@@ -74,11 +74,15 @@ public interface SymbolTable<Key, Value> extends Iterable<Pair<Key, Value>> {
         assert !st.isEmpty() : "Stack is not empty";
         
         for (int i = 0 ; i < N ; i++) {
+            Integer v = st.get(keys[i]);
+            assert v != null : "(Key = " + keys[i] + ", I = " + i + ")";
             if (i % 2 == 1)
-                assert st.get(keys[i]).equals(values2[i]);
+                assert v.equals(values2[i]) : "(V = " + v + ", V1 = " + values1[i] + ", V2 = " + values1[i] + ", I = " + i + ")";
             else
-                assert st.get(keys[i]).equals(values1[i]);
+                assert v.equals(values1[i]) : "(V = " + v + ", V1 = " + values1[i] + ", V2 = " + values1[i] + ", I = " + i + ")";;
         }
+        
+        Arrays.print(st.iterator());
         
         assert st.contains(10);
         
