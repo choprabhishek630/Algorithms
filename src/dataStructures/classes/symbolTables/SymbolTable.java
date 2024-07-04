@@ -82,8 +82,6 @@ public interface SymbolTable<Key, Value> extends Iterable<Pair<Key, Value>> {
                 assert v.equals(values1[i]) : "(V = " + v + ", V1 = " + values1[i] + ", V2 = " + values1[i] + ", I = " + i + ")";;
         }
         
-        Arrays.print(st.iterator());
-        
         assert st.contains(10);
         
         assert st.size() == N;

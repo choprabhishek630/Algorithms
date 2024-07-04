@@ -18,19 +18,19 @@ import queue.Queue;
  * @author abhishekchopra
  */
 public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, Value> {
-    private Node root;
+    private BST.Node<Key, Value> root;
     private final Comparator<Key> cmp;
     
-    private final class BSTIterator implements Iterator<Pair<Key, Value>> {
-        private final Stack<Node> nodes;
-        private Node curr;
+    public static final class BSTIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
+        private final Stack<BST.Node<Key, Value>> nodes;
+        private BST.Node<Key, Value> curr;
         
-        public BSTIterator(Node root) {
+        public BSTIterator(BST.Node<Key, Value> root) {
             this.nodes = new LLStack();
             this.curr = root;
         }
         
-        private void pushItems(Node curr) {
+        private void pushItems(BST.Node<Key, Value> curr) {
             while (curr != null) {
                 this.nodes.push(curr);
                 curr = curr.left;
@@ -45,19 +45,19 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         @Override
         public Pair<Key, Value> next() {
             this.pushItems(this.curr);
-            Node x = this.nodes.pop();
+            BST.Node<Key, Value> x = this.nodes.pop();
             this.curr = x.right;
             return new Pair<>(x.key, x.value);
         }
     }
     
-    private final class Node {
-        public final Key key;
-        public Value value;
-        public Node left, right;
+    public static final class Node<K, V> {
+        public final K key;
+        public V value;
+        public Node<K, V> left, right;
         public int count;
         
-        public Node(Key key, Value value) {
+        public Node(K key, V value) {
             this.key = key;
             this.value = value;
             
@@ -75,7 +75,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         this.root = null;
     }
     
-    private int size(Node x) {
+    private int size(BST.Node<Key, Value> x) {
         if (x == null) return 0;
         return x.count;
     }
@@ -85,7 +85,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return this.size(this.root);
     }
     
-    private Node get(Node root, Key key) {
+    private BST.Node<Key, Value> get(BST.Node<Key, Value> root, Key key) {
         if (root == null) return null;
         
         int c = this.cmp.compare(key, root.key);
@@ -97,8 +97,8 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return root;
     }
     
-    private Node put(Node root, Key key, Value value) {
-        if (root == null) return new Node(key, value);
+    private BST.Node<Key, Value> put(BST.Node<Key, Value> root, Key key, Value value) {
+        if (root == null) return new Node<>(key, value);
         
         int c = this.cmp.compare(key, root.key);
         
@@ -116,7 +116,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return root;
     }
     
-    private int rank(Node root, Key key) {
+    private int rank(BST.Node<Key, Value> root, Key key) {
         if (root == null) return -1;
         
         int c = this.cmp.compare(key, root.key);
@@ -133,7 +133,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return 1 + r + this.size(root.left);
     }
     
-    private Node select(Node root, int rank) {
+    private BST.Node<Key, Value> select(BST.Node<Key, Value> root, int rank) {
         if (root == null) return null;
         
         int leftSize = this.size(root.left);
@@ -147,17 +147,17 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return this.select(root.right, rank - leftSize - 1);
     }
     
-    private Node min(Node root) {
+    private BST.Node<Key, Value> min(BST.Node<Key, Value> root) {
         if (root == null || root.left == null) return root;
         return this.min(root.left);
     }
     
-    private Node max(Node root) {
+    private BST.Node<Key, Value> max(BST.Node<Key, Value> root) {
         if (root == null || root.right == null) return root;
         return this.max(root.right);
     }
     
-    private Node deleteMin(Node root) {
+    private BST.Node<Key, Value> deleteMin(BST.Node<Key, Value> root) {
         if (root == null) return null;
         
         if (root.left == null)
@@ -170,7 +170,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return root;
     }
     
-    private Node deleteMax(Node root) {
+    private BST.Node<Key, Value> deleteMax(BST.Node<Key, Value> root) {
         if (root == null) return null;
         
         if (root.right == null)
@@ -183,7 +183,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return root;
     }
     
-    private Node delete(Node root, Key key) {
+    private BST.Node<Key, Value> delete(BST.Node<Key, Value> root, Key key) {
         if (root == null) return null;
         
         int c = this.cmp.compare(key, root.key);
@@ -196,7 +196,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
             if (root.left == null) return root.right;
             else if (root.right == null) return root.left;
 
-            Node t = root;
+            BST.Node<Key, Value> t = root;
             root = this.min(t.right);
             root.right = this.deleteMin(t.right);
             root.left = t.left;
@@ -207,7 +207,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return root;
     }
     
-    private void inorder(Node root, Queue<Key> queue) {
+    private void inorder(BST.Node<Key, Value> root, Queue<Key> queue) {
         if (root == null) return;
         
         this.inorder(root.left, queue);
@@ -215,7 +215,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         this.inorder(root.right, queue);
     }
     
-    private void inorder(Node root, Queue<Key> queue, Key lo, Key hi) {
+    private void inorder(BST.Node<Key, Value> root, Queue<Key> queue, Key lo, Key hi) {
         if (root == null) return;
         
         int cmpLo = this.cmp.compare(root.key, lo);
@@ -239,7 +239,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         if (key == null)
             throw new NullPointerException("Key cannot be null (" + key + ")");
         
-        Node x = this.get(this.root, key);
+        BST.Node<Key, Value> x = this.get(this.root, key);
         if (x == null) return null;
         return x.value;
     }
@@ -248,7 +248,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
     public Key min() {
         if (this.isEmpty())
             throw new EmptyStackException();
-        Node x = this.min(this.root);
+        BST.Node<Key, Value> x = this.min(this.root);
         if (x == null) return null;
         return x.key;
     }
@@ -257,7 +257,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
     public Key max() {
         if (this.isEmpty())
             throw new EmptyStackException();
-        Node x = this.max(this.root);
+        BST.Node<Key, Value> x = this.max(this.root);
         if (x == null) return null;
         return x.key;
     }
@@ -283,7 +283,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         if (!this.isValidIndex(rank - 1))
             throw new IndexOutOfBoundsException("Rank " + rank + " is out of bounds!");
         
-        Node x = this.select(this.root, rank);
+        BST.Node<Key, Value> x = this.select(this.root, rank);
         if (x == null) return null;
         return x.key;
     }
@@ -293,7 +293,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         if (this.isEmpty())
             throw new EmptyStackException();
         
-        Node min = this.min(this.root);
+        BST.Node<Key, Value> min = this.min(this.root);
         
         if (min == null) return null;
         
@@ -307,7 +307,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         if (this.isEmpty())
             throw new EmptyStackException();
         
-        Node max = this.max(this.root);
+        BST.Node<Key, Value> max = this.max(this.root);
         
         if (max == null) return null;
         
@@ -324,7 +324,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         if (key == null)
             throw new NullPointerException("Key cannot be null (" + key + ")");
         
-        Node x = this.get(this.root, key);
+        BST.Node<Key, Value> x = this.get(this.root, key);
         if (x == null) return null;
         
         this.root = this.delete(this.root, key);
@@ -342,7 +342,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         if (!this.isValidIndex(rank - 1))
             throw new IndexOutOfBoundsException("Rank " + rank + " is out of bounds!");
         
-        Node x = this.select(this.root, rank);
+        BST.Node<Key, Value> x = this.select(this.root, rank);
         if (x == null) return null;
         
         this.root = this.delete(this.root, x.key);
