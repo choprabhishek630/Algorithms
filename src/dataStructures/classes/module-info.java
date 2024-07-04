@@ -12,4 +12,5 @@ module dataStructures {
     exports vector;
     exports priorityQueues;
     exports util;
+    exports symbolTables;
 }

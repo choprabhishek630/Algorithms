@@ -24,16 +24,25 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
     public static final class BSTIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
         private final Stack<BST.Node<Key, Value>> nodes;
         private BST.Node<Key, Value> curr;
+        private boolean reversed;
         
         public BSTIterator(BST.Node<Key, Value> root) {
+            this(root, false);
+        }
+        
+        public BSTIterator(BST.Node<Key, Value> root, boolean reversed) {
             this.nodes = new LLStack();
             this.curr = root;
+            this.reversed = reversed;
         }
         
         private void pushItems(BST.Node<Key, Value> curr) {
             while (curr != null) {
                 this.nodes.push(curr);
-                curr = curr.left;
+                if (reversed)
+                    curr = curr.right;
+                else
+                    curr = curr.left;
             }
         }
         
@@ -46,7 +55,11 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         public Pair<Key, Value> next() {
             this.pushItems(this.curr);
             BST.Node<Key, Value> x = this.nodes.pop();
-            this.curr = x.right;
+            
+            if (this.reversed)
+                this.curr = x.left;
+            else
+                this.curr = x.right;
             return new Pair<>(x.key, x.value);
         }
     }
