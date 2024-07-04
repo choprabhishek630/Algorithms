@@ -21,6 +21,28 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
     private BST.Node<Key, Value> root;
     private final Comparator<Key> cmp;
     
+    public static final class BSTLevelOrderIterator<Key extends Comparable<Key>, Value> implements Iterator<Key> {
+        private final Queue<BST.Node<Key, Value>> nodes;
+        
+        public BSTLevelOrderIterator(BST.Node<Key, Value> root) {
+            this.nodes = new LLQueue<>();
+            this.nodes.enqueue(root);
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return !this.nodes.isEmpty();
+        }
+        
+        @Override
+        public Key next() {
+            BST.Node<Key, Value> peek = this.nodes.dequeue();
+            this.nodes.enqueue(peek.left);
+            this.nodes.enqueue(peek.right);
+            return peek.key;
+        }
+    }
+    
     public static final class BSTIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
         private final Stack<BST.Node<Key, Value>> nodes;
         private BST.Node<Key, Value> curr;
