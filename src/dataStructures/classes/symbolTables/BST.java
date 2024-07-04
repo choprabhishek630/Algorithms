@@ -37,8 +37,10 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         @Override
         public Key next() {
             BST.Node<Key, Value> peek = this.nodes.dequeue();
-            this.nodes.enqueue(peek.left);
-            this.nodes.enqueue(peek.right);
+            if (peek.left != null)
+                this.nodes.enqueue(peek.left);
+            if (peek.right != null)
+                this.nodes.enqueue(peek.right);
             return peek.key;
         }
     }
