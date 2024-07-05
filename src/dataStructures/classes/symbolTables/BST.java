@@ -47,7 +47,6 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
     
     public static final class BSTIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
         private final Stack<BST.Node<Key, Value>> nodes;
-        private BST.Node<Key, Value> curr;
         private boolean reversed;
         
         public BSTIterator(BST.Node<Key, Value> root) {
@@ -56,8 +55,8 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         
         public BSTIterator(BST.Node<Key, Value> root, boolean reversed) {
             this.nodes = new LLStack();
-            this.curr = root;
             this.reversed = reversed;
+            this.pushItems(root);
         }
         
         private void pushItems(BST.Node<Key, Value> curr) {
@@ -70,23 +69,116 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
             }
         }
         
+        private BST.Node<Key, Value> popItems() {
+            return this.nodes.pop();
+        }
+        
         @Override
         public boolean hasNext() {
-            return this.curr != null || !this.nodes.isEmpty();
+            return !this.nodes.isEmpty();
         }
         
         @Override
         public Pair<Key, Value> next() {
-            this.pushItems(this.curr);
-            BST.Node<Key, Value> x = this.nodes.pop();
+            BST.Node<Key, Value> x = this.popItems();
             
             if (this.reversed)
-                this.curr = x.left;
+                this.pushItems(x.left);
             else
-                this.curr = x.right;
+                this.pushItems(x.right);
             return new Pair<>(x.key, x.value);
         }
     }
+    
+    
+    
+    public static final class BSTPreOrderIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
+        private final Stack<BST.Node<Key, Value>> nodes;
+        
+        public BSTPreOrderIterator(BST.Node<Key, Value> root) {
+            this.nodes = new LLStack();
+            this.pushItems(root);
+        }
+        
+        private void pushItems(BST.Node<Key, Value> root) {
+            if (root != null)
+                this.nodes.push(root);
+        }
+        
+        private BST.Node<Key, Value> popItems() {
+            BST.Node<Key, Value> curr = null;
+            while (!this.nodes.isEmpty() && curr == null)
+                curr = this.nodes.pop().right;
+            return curr;
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return !this.nodes.isEmpty();
+        }
+        
+        @Override
+        public Pair<Key, Value> next() {
+            BST.Node<Key, Value> curr = this.nodes.top();
+            Pair<Key, Value> kv = new Pair<>(curr.key, curr.value);
+            
+            curr = curr.left;
+            if (curr == null) {
+                curr = this.popItems();
+            }
+            this.pushItems(curr);
+            
+            return kv;
+        }
+    }
+    
+    public static final class BSTPostOrderIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
+        private final Stack<BST.Node<Key, Value>> nodes;
+        
+        public BSTPostOrderIterator(BST.Node<Key, Value> root) {
+            this.nodes = new LLStack();
+            this.pushItems(root);
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return !this.nodes.isEmpty();
+        }
+        
+        private void pushItems(BST.Node<Key, Value> curr) {
+            while (curr != null) {
+                this.nodes.push(curr);
+                if (curr.left != null)
+                    curr = curr.left;
+                else
+                    curr = curr.right;
+            }
+        }
+        
+        private BST.Node<Key, Value> popItems() {
+            if (this.nodes.isEmpty())   return null;
+            
+            BST.Node<Key, Value> child = this.nodes.pop();
+            
+            if (this.nodes.isEmpty())   return null;
+            
+            BST.Node<Key, Value> parent = this.nodes.top();
+            if (parent.right == child || parent.right == null)
+                return null;
+            return parent.right;
+        }
+        
+        @Override
+        public Pair<Key, Value> next() {
+            BST.Node<Key, Value> x = this.nodes.top();
+            Pair<Key, Value> kv = new Pair<>(x.key, x.value);
+            
+            this.pushItems(this.popItems());
+            
+            return kv;
+        }
+    }
+                    
     
     public static final class Node<K, V> {
         public final K key;
