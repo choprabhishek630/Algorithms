@@ -18,8 +18,8 @@ import queue.Queue;
  * @author abhishekchopra
  */
 public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, Value> {
-    private BST.Node<Key, Value> root;
-    private final Comparator<Key> cmp;
+    protected BST.Node<Key, Value> root;
+    protected final Comparator<Key> cmp;
     
     public static final class BSTLevelOrderIterator<Key extends Comparable<Key>, Value> implements Iterator<Key> {
         private final Queue<BST.Node<Key, Value>> nodes;
@@ -45,7 +45,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         }
     }
     
-    public static final class BSTIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
+    public static final class BSTIterator<Key, Value> implements Iterator<Pair<Key, Value>> {
         private final Stack<BST.Node<Key, Value>> nodes;
         private boolean reversed;
         
@@ -92,7 +92,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
     
     
     
-    public static final class BSTPreOrderIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
+    public static final class BSTPreOrderIterator<Key, Value> implements Iterator<Pair<Key, Value>> {
         private final Stack<BST.Node<Key, Value>> nodes;
         
         public BSTPreOrderIterator(BST.Node<Key, Value> root) {
@@ -132,7 +132,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         }
     }
     
-    public static final class BSTPostOrderIterator<Key extends Comparable<Key>, Value> implements Iterator<Pair<Key, Value>> {
+    public static final class BSTPostOrderIterator<Key, Value> implements Iterator<Pair<Key, Value>> {
         private final Stack<BST.Node<Key, Value>> nodes;
         
         public BSTPostOrderIterator(BST.Node<Key, Value> root) {
@@ -180,7 +180,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
     }
                     
     
-    public static final class Node<K, V> {
+    public static class Node<K, V> {
         public final K key;
         public V value;
         public Node<K, V> left, right;
@@ -204,7 +204,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         this.root = null;
     }
     
-    private int size(BST.Node<Key, Value> x) {
+    protected int size(BST.Node<Key, Value> x) {
         if (x == null) return 0;
         return x.count;
     }
