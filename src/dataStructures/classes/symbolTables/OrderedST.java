@@ -104,6 +104,10 @@ public interface OrderedST<Key extends Comparable<Key>, Value> extends SymbolTab
     
     static void test(OrderedST<Integer, Integer> st) {
         SymbolTable.test(st);
+        while (!st.isEmpty()) {
+            st.deleteMin();
+        }
+        
         
         for (int i = 1 ; i <= 10 ; i++) {
             st.put(i * 2, i * 2);

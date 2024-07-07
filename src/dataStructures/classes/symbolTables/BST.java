@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.EmptyStackException;
 import java.util.Iterator;
 import util.Pair;
+import util.Arrays;
 import stack.LLStack;
 import stack.Stack;
 import queue.LLQueue;
@@ -214,7 +215,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return this.size(this.root);
     }
     
-    private BST.Node<Key, Value> get(BST.Node<Key, Value> root, Key key) {
+    protected BST.Node<Key, Value> get(BST.Node<Key, Value> root, Key key) {
         if (root == null) return null;
         
         int c = this.cmp.compare(key, root.key);
@@ -262,7 +263,7 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return 1 + r + this.size(root.left);
     }
     
-    private BST.Node<Key, Value> select(BST.Node<Key, Value> root, int rank) {
+    protected BST.Node<Key, Value> select(BST.Node<Key, Value> root, int rank) {
         if (root == null) return null;
         
         int leftSize = this.size(root.left);
@@ -276,12 +277,12 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return this.select(root.right, rank - leftSize - 1);
     }
     
-    private BST.Node<Key, Value> min(BST.Node<Key, Value> root) {
+    protected BST.Node<Key, Value> min(BST.Node<Key, Value> root) {
         if (root == null || root.left == null) return root;
         return this.min(root.left);
     }
     
-    private BST.Node<Key, Value> max(BST.Node<Key, Value> root) {
+    protected BST.Node<Key, Value> max(BST.Node<Key, Value> root) {
         if (root == null || root.right == null) return root;
         return this.max(root.right);
     }
@@ -502,8 +503,50 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         return queue;
     }
     
-    public static void main(String[] args) {
-        BST<Integer, Integer> bst = new BST<>();
+    public static Pair<Boolean, Integer> isBST(Node<Integer, Integer> root, int min, int max) {
+        if (root == null) return new Pair<>(true, 0);
+        if (root.key <= min || root.key >= max) return new Pair<>(false, root.count);
+        Pair<Boolean, Integer> left = isBST(root.left, min, root.key);
+        
+        if (!left.first) return new Pair<>(false, root.count);
+        Pair<Boolean, Integer> right = isBST(root.right, root.key, max);
+        int count = left.second + right.second + 1;
+        return new Pair<>(count == root.count && left.first && right.first, count);
+    }
+    
+    public static void test(BST<Integer, Integer> bst) {
         OrderedST.test(bst);
+        while (!bst.isEmpty()) {
+            bst.deleteMin();
+        }
+        int N = 255;
+        Integer[] arrAdd = Arrays.generateRandomArr(N);
+        Integer[] arrDelete = Arrays.generateRandomArr(N);
+        
+        for (int i = 0 ; i < N ; i++) {
+            assert bst.size() == i;
+            bst.put(arrAdd[i], i);
+            assert isBST(bst.root, Integer.MIN_VALUE, Integer.MAX_VALUE).first;
+            assert bst.contains(arrAdd[i]);
+            assert !bst.isEmpty();
+        }
+        assert bst.size() == N;
+        
+        for (int i = 0 ; i < N ; i++) {
+            assert bst.size() == N - i;
+            assert bst.contains(arrDelete[i]);
+            assert !bst.isEmpty();
+            bst.delete(arrDelete[i]);
+            assert isBST(bst.root, Integer.MIN_VALUE, Integer.MAX_VALUE).first;
+            if (i < N - 1)
+                assert !bst.contains(arrDelete[i]);
+        }
+        assert bst.size() == 0;
+        
+        System.out.println("Valid BST");
+    }
+    
+    public static void main(String[] args) {
+        BST.test(new BST<>());
     }
 }
