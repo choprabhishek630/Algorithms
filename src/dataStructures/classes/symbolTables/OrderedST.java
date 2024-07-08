@@ -6,6 +6,7 @@ package symbolTables;
 
 import java.util.List;
 import java.util.ArrayList;
+import util.Pair;
 
 /**
  *
@@ -53,17 +54,16 @@ public interface OrderedST<Key extends Comparable<Key>, Value> extends SymbolTab
         return null;
     }
     
+    default Pair<Integer, Integer> ranks(Key lo, Key hi) {
+        assert lo.compareTo(hi) <= 0;
+        if (this.contains(hi)) return new Pair<>(Math.abs(this.rank(lo)), Math.abs(this.rank(hi)));
+        else return new Pair<>(Math.abs(this.rank(lo)), Math.abs(this.rank(hi)) - 1);
+    }
+    
     default int size(Key lo, Key hi) {
         
-        Key ceil = this.ceiling(lo);
-        
-        if (ceil == null) return 0;
-        
-        Key floor = this.floor(hi);
-        
-        if (floor == null) return 0;
-        
-        return Math.max(0, this.rank(floor) - this.rank(ceil) + 1);
+        Pair<Integer, Integer> ranks = this.ranks(lo, hi);
+        return Math.max(0, ranks.second - ranks.first + 1);
     }
     
     default Value deleteMin() {
@@ -80,24 +80,15 @@ public interface OrderedST<Key extends Comparable<Key>, Value> extends SymbolTab
     }
     
     default Iterable<Key> keys(Key lo, Key hi) {
-        Key ceil = this.ceiling(lo);
-        
-        if (ceil == null) return new ArrayList<>();
-        
-        Key floor = this.floor(hi);
-        
-        if (floor == null) return new ArrayList<>();
-        
-        int floorRank = this.rank(floor), ceilRank = this.rank(ceil);
-        
-        int size = Math.max(0, floorRank - ceilRank + 1);
+        Pair<Integer, Integer> ranks = this.ranks(lo, hi);
+        int size = Math.max(0, ranks.second - ranks.first + 1);
         
         List<Key> list = new ArrayList<>(size);
         
         int idx = 0;
         
         while (idx < size)
-            list.add(this.select(ceilRank + idx++));
+            list.add(this.select(ranks.first + idx++));
         
         return list;
     }

@@ -352,13 +352,13 @@ public class BST<Key extends Comparable<Key>, Value> implements OrderedST<Key, V
         int cmpHi = this.cmp.compare(root.key, hi);
         
         if (cmpLo > 0)
-            this.inorder(root.left, queue);
+            this.inorder(root.left, queue, lo, hi);
         
         if (cmpLo >= 0 && cmpHi <= 0)
             queue.enqueue(root.key);
         
         if (cmpHi < 0)
-            this.inorder(root.right, queue);
+            this.inorder(root.right, queue, lo, hi);
     }
     
     @Override

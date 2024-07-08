@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package symbolTables;
+import util.Arrays;
+import util.Pair;
 
 // for revision
 // https://www.coursera.org/learn/algorithms-part1/lecture/wIUNW/2-3-search-trees
@@ -154,7 +156,9 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> extends BST<Key, Va
         if (key == null || value == null)
             throw new NullPointerException("Key and Value cannot be null (" + key + ", " + value + ")");
         
-        super.root = this.put((RBNode<Key, Value>) (super.root), key, value);
+        RBNode<Key, Value> root = this.put((RBNode<Key, Value>) (super.root), key, value);
+        root.isRed = false;
+        super.root = root;
     }
     
     @Override
@@ -181,8 +185,64 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> extends BST<Key, Va
         throw new UnsupportedOperationException();
     }
     
+    private static boolean isRedNode(RBNode<Integer, Integer> node) {
+        if (node == null) return false;
+        return node.isRed;
+    }
+    
+    private static Pair<Boolean, Integer> isRedBlackTree(RBNode<Integer, Integer> root) {
+        if (root == null) return new Pair<>(true, 0);
+        if (
+            isRedNode(root) &&
+            (
+                isRedNode((RBNode<Integer, Integer>)(root.left)) ||
+                isRedNode((RBNode<Integer, Integer>)(root.right))
+            )
+        ) return new Pair<>(false, 0);
+        Pair<Boolean, Integer> left = isRedBlackTree((RBNode<Integer, Integer>)(root.left));
+        if (!left.first) return left;
+        Pair<Boolean, Integer> right = isRedBlackTree((RBNode<Integer, Integer>)(root.right));
+        return new Pair<>((
+                left.second.equals(right.second) &&
+                right.first
+        ), root.isRed ? left.second : right.second);
+    }
+    
+    private static void testRBTree(RedBlackBST<Integer, Integer> rbt) {
+//        BST.test(rbt);
+//        while (!rbt.isEmpty()) {
+//            rbt.deleteMin();
+//        }
+        int N = 255;
+        Integer[] arrAdd = Arrays.generateRandomArr(N);
+//        Integer[] arrDelete = Arrays.generateRandomArr(N);
+
+        for (int i = 0 ; i < N ; i++) {
+            assert rbt.size() == i;
+            rbt.put(arrAdd[i], i);
+            assert RedBlackBST.isRedBlackTree((RBNode<Integer, Integer>) (rbt.root)).first;
+            assert BST.isBST(rbt.root, Integer.MIN_VALUE, Integer.MAX_VALUE).first;
+            assert rbt.contains(arrAdd[i]);
+            assert !rbt.isEmpty();
+        }
+        assert rbt.size() == N;
+        
+//        for (int i = 0 ; i < N ; i++) {
+//            assert rbt.size() == N - i : i + ", " + N + ", " + rbt.size();
+//            assert rbt.contains(arrDelete[i]);
+//            assert !rbt.isEmpty();
+//            rbt.delete(arrDelete[i]);
+//            assert RedBlackBST.isRedBlackTree((RBNode<Integer, Integer>) (rbt.root)).first;
+//            assert RedBlackBST.isRedBlackTree((RBNode<Integer, Integer>) (rbt.root)).first;
+//            if (i < N - 1)
+//                assert !rbt.contains(arrDelete[i]);
+//        }
+//        assert rbt.size() == 0;
+        
+        System.out.println("Vali Red Black Tree");
+    }
+    
     public static void main(String[] args) {
-        // TODO
-        // OrderedST.test(new RedBlackBST<>());
+         testRBTree(new RedBlackBST<>());
     }
 }
