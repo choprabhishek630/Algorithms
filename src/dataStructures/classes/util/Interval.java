@@ -23,7 +23,7 @@ public class Interval<Key extends Comparable<Key>> {
         else this.cmp = Comparator.naturalOrder();
         if (lo == null || hi == null)
             throw new NullPointerException("High or Lo cannot be null (" + hi + ", " + lo + ")");
-        if (lo.compareTo(hi) > 0) {
+        if (this.cmp.compare(lo, hi) > 0) {
             this.lo = hi;
             this.hi = lo;
         } else {
@@ -43,7 +43,7 @@ public class Interval<Key extends Comparable<Key>> {
     public Key setLow(Key lo) {
         if (lo == null)
             throw new NullPointerException("Low cannot be null");
-        if (lo.compareTo(this.hi) > 0)
+        if (this.cmp.compare(lo, this.hi) > 0)
             throw new IllegalArgumentException("Low cannot be greater than High");
         Key prevLo = this.lo;
         this.lo = lo;
@@ -53,14 +53,14 @@ public class Interval<Key extends Comparable<Key>> {
     public Key setHigh(Key hi) {
         if (hi == null)
             throw new NullPointerException("High cannot be null");
-        if (hi.compareTo(this.lo) < 0)
+        if (this.cmp.compare(hi, this.lo) < 0)
             throw new IllegalArgumentException("High cannot be lower than Low");
         Key prevHi = this.hi;
         this.hi = hi;
         return prevHi;
     }
     
-    public boolean intersects(Interval b) {
-        return b.high().compareTo(this.lo) >= 0 && b.low().compareTo(this.hi) <= 0;
+    public boolean intersects(Interval<Key> b) {
+        return this.cmp.compare(b.high(), this.lo) >= 0 && this.cmp.compare(b.low(), this.hi) <= 0;
     }
 }
